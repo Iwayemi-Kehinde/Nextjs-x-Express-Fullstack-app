@@ -37,6 +37,10 @@ export default function Navbar() {
 
   return (
     <>
+    <TopNav>
+      <p>Free Delivery</p>
+      <p>24/7 Customer Support</p>
+    </TopNav>
       <Nav $scrolled={scrolled}>
         <Container ref={navRef}>
           <Logo>Ramzshops</Logo>
@@ -92,11 +96,9 @@ export default function Navbar() {
 /* ---------------- Styled Components ---------------- */
 
 const Nav = styled.nav<{ $scrolled: boolean }>`
-  position: fixed;
-  top: 0;
-  left: 0;
+
   width: 100%;
-  z-index: 150; /* keep this high but MobileSearchWrapper uses >150 to show above */
+  z-index: 2000; /* keep this high but MobileSearchWrapper uses >150 to show above */
   transition: all 0.3s ease;
   background: ${({ $scrolled }) => ($scrolled ? "white" : "rgba(255,255,255,0.92)")};
   backdrop-filter: blur(8px);
@@ -105,9 +107,11 @@ const Nav = styled.nav<{ $scrolled: boolean }>`
 `;
 
 const Container = styled.div`
-  max-width: 1200px;
+  // max-width: 1200px;
   margin: 0 auto;
-  padding: 10px 16px;
+  // position: fixed;
+  // top: 0;
+  padding: 20px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -117,6 +121,17 @@ const Container = styled.div`
     padding: 12px 32px;
   }
 `;
+
+
+const TopNav = styled.div`
+background-color: #3B82F6;
+padding: 3px 14px;
+display: flex;
+justify-content: space-between;
+p{
+  color: white;
+}
+`
 
 const Logo = styled.h1`
   font-size: 1.25rem;
@@ -185,6 +200,7 @@ const IconGroup = styled.div`
   display: flex;
   align-items: center;
   color: #4b5563;
+  gap: 10px;
 `;
 
 const IconButton = styled.button`

@@ -1,6 +1,6 @@
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
-// import SubNavbar from "@/components/layout/SubNavbar";
+import SubNavbar from "@/components/layout/SubNavbar";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +8,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       
       <body className="bg-gray-50 text-gray-900">
         <Navbar />
-        {/* <SubNavbar /> */}
+        <SubNavbar />
         {/* <main className="min-h-screen">{children}</main> */}
       </body>
     </html>

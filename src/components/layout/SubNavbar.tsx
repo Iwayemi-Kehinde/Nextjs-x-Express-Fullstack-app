@@ -1,111 +1,204 @@
-// "use client"
-// import { useRef, useState, useEffect } from "react";
+"use client";
 
-// const SubNavbar = () => {
-//   const categories = [
-//     "All",
-//     "Electronics",
-//     "Fashion",
-//     "Home & Kitchen",
-//     "Beauty",
-//     "Sports",
-//     "Toys",
-//     "Automotive",
-//     "Books",
-//     "Health",
-//     "Groceries",
-//     "Office Supplies",
-//     "Pet Supplies",
-//   ];
+import { useRef, useState } from "react";
+import styled from "styled-components";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-//   const scrollRef = useRef<HTMLDivElement | null>(null);
-//   const [showLeft, setShowLeft] = useState(false);
-//   const [showRight, setShowRight] = useState(false);
+const categories = [
+  "Electronics",
+  "Fashion",
+  "Home & Living",
+  "Beauty & Health",
+  "Sports",
+  "Groceries",
+  "Books",
+  "Toys",
+  "Automobile",
+  "Pets",
+  "Beauty & Health",
+  "Sports",
+  "Groceries",
+  "Books",
+  "Toys",
+  "Automobile",
+  "Pets",
+  "Beauty & Health",
+  "Sports",
+  "Groceries",
+  "Books",
+  "Toys",
+  "Automobile",
+  "Pets",
+];
 
-//   // Check scroll position dynamically
-//   const checkScroll = () => {
-//     const container = scrollRef.current;
-//     if (!container) return;
+export default function SubNavbar() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeCategory, setActiveCategory] = useState("Electronics");
 
-//     const { scrollLeft, scrollWidth, clientWidth } = container;
-//     setShowLeft(scrollLeft > 10);
-//     setShowRight(scrollLeft + clientWidth < scrollWidth - 10);
-//   };
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 250;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
-//   useEffect(() => {
-//     checkScroll();
-//     const container = scrollRef.current;
-//     if (container) {
-//       container.addEventListener("scroll", checkScroll);
-//     }
-//     window.addEventListener("resize", checkScroll);
+  return (
+    <Wrapper>
+              <FadeLeft />
+      <ScrollButtonLeft onClick={() => scroll("left")}>
+        <ChevronLeft size={18} />
+      </ScrollButtonLeft>
 
-//     return () => {
-//       container?.removeEventListener("scroll", checkScroll);
-//       window.removeEventListener("resize", checkScroll);
-//     };
-//   }, []);
+      <ScrollContainer ref={scrollRef}>
+        {categories.map((cat, index) => (
+          <CategoryWrapper key={cat}>
+            <Category
+              $active={cat === activeCategory}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </Category>
+            {index < categories.length - 1 && <Divider />}
+          </CategoryWrapper>
+        ))}
+      </ScrollContainer>
 
-//   return (
-//     <div className="relative w-full border-t border-gray-200 bg-white">
-//       {/* Left Arrow */}
-//       {showLeft && (
-//         <button
-//           onClick={() =>
-//             scrollRef.current?.scrollBy({ left: -200, behavior: "smooth" })
-//           }
-//           className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full p-1.5 hover:bg-blue-50 z-10 transition"
-//         >
-//           <svg
-//             xmlns="http://www.w3.org/2000/svg"
-//             fill="none"
-//             viewBox="0 0 24 24"
-//             strokeWidth={2}
-//             stroke="currentColor"
-//             className="w-5 h-5 text-gray-600"
-//           >
-//             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-//           </svg>
-//         </button>
-//       )}
+      <ScrollButtonRight onClick={() => scroll("right")}>
+        <ChevronRight size={18} />
+      </ScrollButtonRight>
+      <FadeRight />
 
-//       {/* Scrollable Categories */}
-//       <div
-//         ref={scrollRef}
-//         className="flex space-x-3 px-10 py-3 text-sm text-gray-700 whitespace-nowrap overflow-x-auto scroll-smooth no-scrollbar"
-//       >
-//         {categories.map((cat) => (
-//           <button
-//             key={cat}
-//             className="px-4 py-1.5 border border-blue-400 text-blue-600 bg-blue-50/40 rounded-full hover:bg-blue-100 hover:text-blue-700 transition-all duration-200"
-//           >
-//             {cat}
-//           </button>
-//         ))}
-//       </div>
+    </Wrapper>
+  );
+}
 
-//       {/* Right Arrow */}
-//       {showRight && (
-//         <button
-//           onClick={() =>
-//             scrollRef.current?.scrollBy({ left: 200, behavior: "smooth" })
-//           }
-//           className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full p-1.5 hover:bg-blue-50 z-10 transition"
-//         >
-//           <svg
-//             xmlns="http://www.w3.org/2000/svg"
-//             fill="none"
-//             viewBox="0 0 24 24"
-//             strokeWidth={2}
-//             stroke="currentColor"
-//             className="w-5 h-5 text-gray-600"
-//           >
-//             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-//           </svg>
-//         </button>
-//       )}
-//     </div>
-//   );
-// };
+//
+// Styled Components
+//
 
-// export default SubNavbar;
+const Wrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-top: 1px solid #dbeafe; /* subtle light blue line */
+  border-bottom: 1px solid #dbeafe; /* subtle light blue line */
+  width: 100%;
+  overflow: hidden;
+`;
+
+const ScrollContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.7rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0.9rem 16px;
+  width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const CategoryWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Category = styled.button<{ $active?: boolean }>`
+  background: ${({ $active }) => ($active ? "#EFF6FF" : "transparent")};
+  color: ${({ $active }) => ($active ? "#2563EB" : "#374151")};
+  border: 1px solid ${({ $active }) => ($active ? "#93C5FD" : "transparent")};
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 0.35rem 1rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  font-family: Nunito;
+
+  @media(max-width: 400px) {
+    padding: 0.35rem;
+  }
+
+  &:hover {
+    color: #2563eb;
+    background: #f3f7ff;
+    transform: translateY(-1px);
+  }
+`;
+
+const Divider = styled.span`
+  width: 1px;
+  height: 18px;
+  background-color: #e5e7eb;
+  margin-left: 1.75rem;
+`;
+
+const ScrollButtonBase = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  color: #6b7280;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f3f4f6;
+    color: #2563eb;
+  }
+
+  @media (min-width: 768px) {
+    display: flex;
+  }
+`;
+
+const ScrollButtonLeft = styled(ScrollButtonBase)`
+  left: 10px;
+  z-index: 3;
+`;
+
+const ScrollButtonRight = styled(ScrollButtonBase)`
+  right: 10px;
+  z-index: 3;
+
+`;
+
+/* ✨ Gradient fade edges */
+const FadeLeft = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  background: linear-gradient(to right, white 60%, transparent);
+  pointer-events: none;
+  z-index: 5;
+`;
+
+const FadeRight = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  background: linear-gradient(to left, white 60%, transparent);
+  pointer-events: none;
+  z-index: 5;
+`;
