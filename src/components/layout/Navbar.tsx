@@ -64,62 +64,43 @@ export default function Navbar() {
               <Search size={20} />
             </MobileSearchButton>
 
-            <UserMenuWrapper
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}>
-            <IconButton>
-              <User size={22} />
-            </IconButton>
+            <UserMenuWrapper>
+  <IconButton>
+    <User size={22} />
+  </IconButton>
 
+  <Dropdown>
+    <TopSection>
+      <SignInButton>Sign In / Register</SignInButton>
+    </TopSection>
 
-            {open && (
-        <Dropdown>
-          <TopSection>
-            <SignInButton>Sign In / Register</SignInButton>
-          </TopSection>
+    <QuickActions>
+      <QuickItem>
+        <Tag size={16} />
+        <span>Coupons</span>
+      </QuickItem>
+      <QuickItem>
+        <Package size={16} />
+        <span>Your Orders</span>
+      </QuickItem>
+      <QuickItem>
+        <Heart size={16} />
+        <span>Wishlist</span>
+      </QuickItem>
+    </QuickActions>
 
-          <QuickActions>
-            <QuickItem>
-              <Tag size={16} />
-              <span>Coupons</span>
-            </QuickItem>
-            <QuickItem>
-              <Package size={16} />
-              <span>Your Orders</span>
-            </QuickItem>
-            <QuickItem>
-              <Heart size={16} />
-              <span>Wishlist</span>
-            </QuickItem>
-          </QuickActions>
+    <Divider />
 
-          <Divider />
-
-          <BottomSection>
-            <BottomItem>
-              <Star size={16} /> Your Reviews
-            </BottomItem>
-            <BottomItem>
-              <Store size={16} /> Followed Stores
-            </BottomItem>
-            <BottomItem>
-              <Clock size={16} /> Browsing History
-            </BottomItem>
-            <BottomItem>
-              <MapPin size={16} /> Addresses
-            </BottomItem>
-            <BottomItem>
-              <HelpCircle size={16} /> Customer Support
-            </BottomItem>
-            <BottomItem>
-              <Settings size={16} /> Settings
-            </BottomItem>
-          </BottomSection>
-        </Dropdown>
-      )}
-
-
-            </UserMenuWrapper>
+    <BottomSection>
+      <BottomItem><Star size={16} /> Your Reviews</BottomItem>
+      <BottomItem><Store size={16} /> Followed Stores</BottomItem>
+      <BottomItem><Clock size={16} /> Browsing History</BottomItem>
+      <BottomItem><MapPin size={16} /> Addresses</BottomItem>
+      <BottomItem><HelpCircle size={16} /> Customer Support</BottomItem>
+      <BottomItem><Settings size={16} /> Settings</BottomItem>
+    </BottomSection>
+  </Dropdown>
+</UserMenuWrapper>
 
             <CartButton>
               <ShoppingCart size={22} />
@@ -269,11 +250,15 @@ const IconButton = styled.button`
   border: none;
   cursor: pointer;
   transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
-    color: ${blue.base};
+    color: #3b82f6;
   }
 `;
+
 
 const MobileSearchButton = styled(IconButton)<{ $active: boolean }>`
   display: flex;
@@ -335,7 +320,46 @@ const Overlay = styled.div`
   @media (min-width: 768px) {
     display: none;
   }
+
 `;
+
+
+
+
+const Dropdown = styled.div`
+  position: absolute;
+  top: 58px;
+  right: 0;
+  width: 270px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 200;
+
+  /* Start hidden */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s ease-in-out;
+
+  /* 🧠 Center it on mobile */
+  @media (max-width: 700px) {
+    // left: 50%;
+    // right: auto;
+    // width: 90vw;
+    // transform: translate(-50%, -8px);
+    transform: translateY(-13px);
+
+    width: 240px;
+
+
+    text-align: center;
+  }
+`;
+
+
 
 
 const UserMenuWrapper = styled.div`
@@ -343,45 +367,16 @@ const UserMenuWrapper = styled.div`
   display: flex;
   align-items: center;
   z-index: 10000;
-`;
 
-// const IconButton = styled.button`
-//   background: none;
-//   border: none;
-//   cursor: pointer;
-//   color: #4b5563;
-//   transition: color 0.2s ease;
-
-//   &:hover {
-//     color: ${blue.base};
-//   }
-// `;
-
-const Dropdown = styled.div`
-  position: absolute;
-  top: 58px;
-  left: 50%;
-  transform: translateX(-86%);
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  z-index: 200;
-  width: 270px;
-  animation: fadeIn 0.25s ease-in-out;
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translate(-50%, -5px);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
+  /* 👇 When hovering on the wrapper or icon, show dropdown */
+  &:hover ${Dropdown} {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
   }
 `;
+
+
 
 
 const TopSection = styled.div`
@@ -402,10 +397,6 @@ const SignInButton = styled.button`
   transition: all 0.25s ease;
 
   font-family: Nunito;
-
-  &:hover {
-    background-color: #1d4ed8;
-  }
 `;
 
 const QuickActions = styled.div`
@@ -454,7 +445,7 @@ const BottomItem = styled.div`
   transition: all 0.25s ease;
 
   &:hover {
-    background-color: ${blue.light};
+    // background-color: ${blue.light};
     color: ${blue.base};
   }
 `;
