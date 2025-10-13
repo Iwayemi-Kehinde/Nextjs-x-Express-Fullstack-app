@@ -47,7 +47,7 @@ export default function SubNavbar() {
 
   return (
     <Wrapper>
-              <FadeLeft />
+      <FadeLeft />
       <ScrollButtonLeft onClick={() => scroll("left")}>
         <ChevronLeft size={18} />
       </ScrollButtonLeft>
@@ -81,6 +81,7 @@ export default function SubNavbar() {
 
 const Wrapper = styled.div`
   position: relative;
+  margin-top: 95px; /* 👈 same height as your fixed navbar */
   display: flex;
   align-items: center;
   background-color: #ffffff;
@@ -88,6 +89,7 @@ const Wrapper = styled.div`
   border-bottom: 1px solid #dbeafe; /* subtle light blue line */
   width: 100%;
   overflow: hidden;
+  z-index: 50;
 `;
 
 const ScrollContainer = styled.div`

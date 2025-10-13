@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Search, User, ShoppingCart } from "lucide-react";
+import { Heart, Tag, Package, Settings, HelpCircle, Star, MapPin, Store, Clock } from "lucide-react";
+
 
 const blue = {
   light: "#60A5FA",
@@ -15,6 +17,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLDivElement | null>(null);
   const [navHeight, setNavHeight] = useState(64); // fallback
+  const [open, setOpen] = useState(false);
+
 
   // compute nav height (keeps dropdown positioned exactly below nav)
   useEffect(() => {
@@ -37,11 +41,12 @@ export default function Navbar() {
 
   return (
     <>
-    <TopNav>
+   
+      <Nav $scrolled={scrolled}>
+      <TopNav>
       <p>Free Delivery</p>
       <p>24/7 Customer Support</p>
     </TopNav>
-      <Nav $scrolled={scrolled}>
         <Container ref={navRef}>
           <Logo>Ramzshops</Logo>
 
@@ -59,9 +64,62 @@ export default function Navbar() {
               <Search size={20} />
             </MobileSearchButton>
 
+            <UserMenuWrapper
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}>
             <IconButton>
               <User size={22} />
             </IconButton>
+
+
+            {open && (
+        <Dropdown>
+          <TopSection>
+            <SignInButton>Sign In / Register</SignInButton>
+          </TopSection>
+
+          <QuickActions>
+            <QuickItem>
+              <Tag size={16} />
+              <span>Coupons</span>
+            </QuickItem>
+            <QuickItem>
+              <Package size={16} />
+              <span>Your Orders</span>
+            </QuickItem>
+            <QuickItem>
+              <Heart size={16} />
+              <span>Wishlist</span>
+            </QuickItem>
+          </QuickActions>
+
+          <Divider />
+
+          <BottomSection>
+            <BottomItem>
+              <Star size={16} /> Your Reviews
+            </BottomItem>
+            <BottomItem>
+              <Store size={16} /> Followed Stores
+            </BottomItem>
+            <BottomItem>
+              <Clock size={16} /> Browsing History
+            </BottomItem>
+            <BottomItem>
+              <MapPin size={16} /> Addresses
+            </BottomItem>
+            <BottomItem>
+              <HelpCircle size={16} /> Customer Support
+            </BottomItem>
+            <BottomItem>
+              <Settings size={16} /> Settings
+            </BottomItem>
+          </BottomSection>
+        </Dropdown>
+      )}
+
+
+            </UserMenuWrapper>
 
             <CartButton>
               <ShoppingCart size={22} />
@@ -98,12 +156,14 @@ export default function Navbar() {
 const Nav = styled.nav<{ $scrolled: boolean }>`
 
   width: 100%;
-  z-index: 2000; /* keep this high but MobileSearchWrapper uses >150 to show above */
+  z-index: 200000000000000; /* keep this high but MobileSearchWrapper uses >150 to show above */
   transition: all 0.3s ease;
   background: ${({ $scrolled }) => ($scrolled ? "white" : "rgba(255,255,255,0.92)")};
   backdrop-filter: blur(8px);
   border-bottom: 1px solid ${({ $scrolled }) => ($scrolled ? "#E5E7EB" : "transparent")};
   box-shadow: ${({ $scrolled }) => ($scrolled ? "0 2px 6px rgba(0,0,0,0.08)" : "none")};
+  position: fixed; /* 👈 Important: creates stacking context */
+  top:0;
 `;
 
 const Container = styled.div`
@@ -116,6 +176,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  // z-index: 1000000;
 
   @media (min-width: 768px) {
     padding: 12px 32px;
@@ -273,5 +334,127 @@ const Overlay = styled.div`
   z-index: 145;       /* < Nav (150) and < MobileSearchWrapper (200), so it won't cover the nav */
   @media (min-width: 768px) {
     display: none;
+  }
+`;
+
+
+const UserMenuWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 10000;
+`;
+
+// const IconButton = styled.button`
+//   background: none;
+//   border: none;
+//   cursor: pointer;
+//   color: #4b5563;
+//   transition: color 0.2s ease;
+
+//   &:hover {
+//     color: ${blue.base};
+//   }
+// `;
+
+const Dropdown = styled.div`
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-86%);
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  z-index: 200;
+  width: 270px;
+  animation: fadeIn 0.25s ease-in-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -5px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+`;
+
+
+const TopSection = styled.div`
+  background-color: ${blue.light};
+  padding: 10px 0;
+  text-align: center;
+`;
+
+const SignInButton = styled.button`
+  width: 100%;
+  background-color: ${blue.light};
+  color: white;
+  border: none;
+  padding: 8px 0;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  font-family: Nunito;
+
+  &:hover {
+    background-color: #1d4ed8;
+  }
+`;
+
+const QuickActions = styled.div`
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  background-color: #f9fafb;
+`;
+
+const QuickItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #374151;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: ${blue.base};
+  }
+`;
+
+const Divider = styled.div`
+  height: 1px;
+  background-color: #e5e7eb;
+`;
+
+const BottomSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  gap: 8px;
+`;
+
+const BottomItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #374151;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 6px 8px;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background-color: ${blue.light};
+    color: ${blue.base};
   }
 `;
