@@ -75,7 +75,7 @@ const Card = styled.div`
   background: #fff;
   font-family: Nunito;
   width: 100%;
-  margin-top: 60px;
+  margin-top: 20px;
   max-width: 380px;
   padding: 2.5rem;
   border-radius: 16px;
