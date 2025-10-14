@@ -3,11 +3,13 @@
 
 html, body{
   font-family: "Nunito", sans-serif;
-  height: 130vh;
+  min-height: 100vh;
 }
 
 *{
   padding:0;
+  font-family: "Nunito", sans-serif;
+  text-decoration: none;
   margin: 0;
 }
 

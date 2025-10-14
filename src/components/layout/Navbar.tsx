@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Search, User, ShoppingCart } from "lucide-react";
 import { Heart, Tag, Package, Settings, HelpCircle, Star, MapPin, Store, Clock } from "lucide-react";
-
+import Link from "next/link";
 
 const blue = {
   light: "#60A5FA",
@@ -16,7 +16,7 @@ export default function Navbar() {
   const [showSearch, setShowSearch] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLDivElement | null>(null);
-  const [navHeight, setNavHeight] = useState(64); // fallback
+  const [navHeight, setNavHeight] = useState(72); // fallback
   const [open, setOpen] = useState(false);
 
 
@@ -70,9 +70,12 @@ export default function Navbar() {
   </IconButton>
 
   <Dropdown>
+  <Link href="/auth" passHref>
+
     <TopSection>
       <SignInButton>Sign In / Register</SignInButton>
     </TopSection>
+    </Link>
 
     <QuickActions>
       <QuickItem>
@@ -114,7 +117,7 @@ export default function Navbar() {
       <MobileSearchWrapper
         $visible={showSearch}
         style={{
-          top: `${navHeight}px`, // <-- important: placed exactly below the nav
+          top: `98px`, // <-- important: placed exactly below the nav
           zIndex: 200,           // make sure this is ABOVE the Nav z-index
         }}
       >
@@ -349,10 +352,12 @@ const Dropdown = styled.div`
     // left: 50%;
     // right: auto;
     // width: 90vw;
-    // transform: translate(-50%, -8px);
+    // transform: translate(-50px, -8px);
     transform: translateY(-13px);
+    // left: 0;
+    right: -21px;
 
-    width: 240px;
+    width: 270px;
 
 
     text-align: center;
@@ -383,9 +388,10 @@ const TopSection = styled.div`
   background-color: ${blue.light};
   padding: 10px 0;
   text-align: center;
+  text-decoration: none;
 `;
 
-const SignInButton = styled.button`
+const SignInButton = styled.a`
   width: 100%;
   background-color: ${blue.light};
   color: white;
@@ -395,6 +401,7 @@ const SignInButton = styled.button`
   font-weight: 500;
   cursor: pointer;
   transition: all 0.25s ease;
+  text-decoration: none;
 
   font-family: Nunito;
 `;
