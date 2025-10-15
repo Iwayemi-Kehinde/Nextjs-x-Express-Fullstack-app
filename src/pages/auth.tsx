@@ -84,6 +84,7 @@ const Card = styled.div`
 
   @media(max-width: 768px) {
     padding: .5rem;
+    margin-top: 0;
   }
 
   @keyframes fadeIn {
