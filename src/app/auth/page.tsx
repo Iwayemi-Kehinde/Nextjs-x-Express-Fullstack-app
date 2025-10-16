@@ -1,8 +1,10 @@
+"use client"
+
 import { useState } from "react";
 import styled from "styled-components";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaTwitter } from "react-icons/fa";
-import "../styles/global.css"
+import "../globals.css"
 import Link from "next/link";
 
 export default function AuthPage() {
@@ -10,10 +12,7 @@ export default function AuthPage() {
 
   return (
     <>
-      <Link style={{padding: "20px", textDecoration: "none", color: "#3b82f6"}}  href="/" passHref>
-
-          <h1 style={{background: " linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%)", padding: "20px", textDecoration: "none"}} >RamzShops</h1>
-          </Link>
+    
           <Wrapper>
       <Card>
         <Emoji>🔐</Emoji>
@@ -69,6 +68,11 @@ font-family: Nunito;
   justify-content: center;
   align-items: center;
   padding: 2rem;
+
+  @media(max-width: 768px) {
+    padding: 10px;
+  }
+
 `;
 
 const Card = styled.div`
@@ -83,8 +87,7 @@ const Card = styled.div`
   animation: fadeIn 0.5s ease-in-out;
 
   @media(max-width: 768px) {
-    padding: .5rem;
-    margin-top: 0;
+    padding: .89rem;
   }
 
   @keyframes fadeIn {

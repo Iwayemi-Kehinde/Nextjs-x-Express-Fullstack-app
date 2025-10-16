@@ -118,7 +118,7 @@ export default function Navbar() {
         $visible={showSearch}
         style={{
           top: `98px`, // <-- important: placed exactly below the nav
-          zIndex: 200,           // make sure this is ABOVE the Nav z-index
+          zIndex: 20034340000,           // make sure this is ABOVE the Nav z-index
         }}
       >
         <SearchForm>

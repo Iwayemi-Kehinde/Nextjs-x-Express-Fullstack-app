@@ -8,14 +8,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       
       <body className="bg-gray-50 text-gray-900">
-      <StyledComponentsRegistry>
+      {/* <StyledComponentsRegistry> */}
 
         <Navbar />
         <SubNavbar />
+   <main className="min-h-screen">{children}</main>
+        {/* </StyledComponentsRegistry> */}
 
-        </StyledComponentsRegistry>
-
-        {/* <main className="min-h-screen">{children}</main> */}
+     
       </body>
     </html>
   );
