@@ -5,8 +5,8 @@ import { Star } from "lucide-react";
 
 
 const banners = [
-  "/banners/banner1.jpeg",
-  "/banners/banner2.jpeg",
+  "/banners/banner1.png",
+  "/banners/banner2.png",
   "/banners/banner3.png",
 ];
 
@@ -14,28 +14,28 @@ const featuredProducts = [
   {
     id: 1,
     name: "Wireless Headphones",
-    image: "/products/next.svg",
+    image: "/products/next.jpeg",
     price: "$49.99",
     rating: 4.5,
   },
   {
     id: 2,
     name: "Smart Watch",
-    image: "/products/file.svg",
+    image: "/products/file.jpeg",
     price: "$89.99",
     rating: 4.8,
   },
   {
     id: 3,
     name: "Bluetooth Speaker",
-    image: "/products/vercel.svg",
+    image: "/products/vercel.jpeg",
     price: "$39.99",
     rating: 4.4,
   },
   {
     id: 4,
     name: "Gaming Mouse",
-    image: "/products/globe.svg",
+    image: "/products/globe.jpeg",
     price: "$29.99",
     rating: 4.7,
   },
@@ -93,7 +93,7 @@ const Home: React.FC = () => {
     <Section>
       <Header>
         <h2>🌟 Featured Products</h2>
-        <ViewAll href="/products">View all →</ViewAll>
+        <ViewAll href="/products">View</ViewAll>
       </Header>
 
       <ProductsGrid>
@@ -128,7 +128,7 @@ export default Home;
 
 
 const Headerr = styled.div`
-margin: 50px 40px 60px 40px; /* adjust for your fixed navbar */
+margin: 50px 40px 10px 40px; /* adjust for your fixed navbar */
 @media(max-width: 480px) {
   margin-left: 10px;
   margin-right: 10px;
@@ -164,8 +164,8 @@ const BannerTrack = styled.div<{ $current: number }>`
 const BannerImage = styled.img`
   width: 100%;
   flex-shrink: 0;
-  height: 400px;
-  object-fit: cover;
+  height: auto;
+  // object-fit: cover;
 `;
 
 const Dots = styled.div`
@@ -264,7 +264,7 @@ const Card = styled.div`
 
 const ImageWrapper = styled.div`
   width: 100%;
-  height: 160px;
+  height: auto;
   border-radius: 10px;
   overflow: hidden;
   background: #f1f5f9;
@@ -272,7 +272,7 @@ const ImageWrapper = styled.div`
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    // object-fit: cover;
   }
 `;
 

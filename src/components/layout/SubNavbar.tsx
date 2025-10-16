@@ -106,6 +106,11 @@ const ScrollContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  @media(max-width: 480px) {
+    gap: .7rem;
+    // padding: .9rem 7px
+  }
 `;
 
 const CategoryWrapper = styled.div`
@@ -141,7 +146,7 @@ const Divider = styled.span`
   width: 1px;
   height: 18px;
   background-color: #e5e7eb;
-  margin-left: 1.75rem;
+  margin-left: 1rem;
 `;
 
 const ScrollButtonBase = styled.button`
