@@ -48,7 +48,9 @@ export default function Navbar() {
       <p>24/7 Customer Support</p>
     </TopNav>
         <Container ref={navRef}>
+          <Link href="/" passHref>
           <Logo>Ramzshops</Logo>
+          </Link>
 
           <DesktopSearchBar>
             <SearchForm>

@@ -62,15 +62,16 @@ export default function AuthPage() {
 
 const Wrapper = styled.div`
 font-family: Nunito;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  // min-height: 100vh;
+  // min-height: 80vh;
+  // background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
 
   @media(max-width: 768px) {
-    padding: 10px;
+    padding: 12x;
   }
 
 `;
@@ -83,9 +84,9 @@ const Card = styled.div`
   max-width: 380px;
   padding: 2.5rem;
   border-radius: 16px;
+  box-shadow: 0px 4px 9px 5px rgba(0, 0, 0, .1 );
   text-align: center;
   animation: fadeIn 0.5s ease-in-out;
-
   @media(max-width: 768px) {
     padding: .89rem;
   }
