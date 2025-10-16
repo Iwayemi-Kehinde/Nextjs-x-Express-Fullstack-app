@@ -1,103 +1,300 @@
-import Image from "next/image";
+"use client";
+import React, { useState, useEffect, useRef } from "react";
+import styled from "styled-components";
+import { Star } from "lucide-react";
 
-export default function Home() {
+
+const banners = [
+  "/banners/banner1.jpeg",
+  "/banners/banner2.jpeg",
+  "/banners/banner3.png",
+];
+
+const featuredProducts = [
+  {
+    id: 1,
+    name: "Wireless Headphones",
+    image: "/products/next.svg",
+    price: "$49.99",
+    rating: 4.5,
+  },
+  {
+    id: 2,
+    name: "Smart Watch",
+    image: "/products/file.svg",
+    price: "$89.99",
+    rating: 4.8,
+  },
+  {
+    id: 3,
+    name: "Bluetooth Speaker",
+    image: "/products/vercel.svg",
+    price: "$39.99",
+    rating: 4.4,
+  },
+  {
+    id: 4,
+    name: "Gaming Mouse",
+    image: "/products/globe.svg",
+    price: "$29.99",
+    rating: 4.7,
+  },
+];
+
+const Home: React.FC = () => {
+  const [current, setCurrent] = useState(0);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Auto-scroll on desktop
+  useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+    if (!isMobile) {
+      timeoutRef.current = setInterval(() => {
+        setCurrent((prev) => (prev + 1) % banners.length);
+      }, 2500);
+    }
+    return () => {
+      if (timeoutRef.current) clearInterval(timeoutRef.current);
+    };
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touchStartX = e.touches[0].clientX;
+    const handleTouchEnd = (ev: TouchEvent) => {
+      const touchEndX = ev.changedTouches[0].clientX;
+      const diff = touchStartX - touchEndX;
+
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) setCurrent((prev) => (prev + 1) % banners.length);
+        else setCurrent((prev) => (prev - 1 + banners.length) % banners.length);
+      }
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+    window.addEventListener("touchend", handleTouchEnd);
+  };
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <Headerr>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    <BannerWrapper onTouchStart={handleTouchStart}>
+      <BannerTrack $current={current}>
+        {banners.map((banner, i) => (
+          <BannerImage key={i} src={banner} alt={`Banner ${i + 1}`} />
+        ))}
+      </BannerTrack>
+
+      <Dots>
+        {banners.map((_, i) => (
+          <Dot key={i} $active={i === current} onClick={() => setCurrent(i)} />
+        ))}
+      </Dots>
+    </BannerWrapper>
+
+    <Section>
+      <Header>
+        <h2>🌟 Featured Products</h2>
+        <ViewAll href="/products">View all →</ViewAll>
+      </Header>
+
+      <ProductsGrid>
+        {featuredProducts.map((p) => (
+          <Card key={p.id}>
+            <ImageWrapper>
+              <img src={p.image} alt={p.name} />
+            </ImageWrapper>
+            <Info>
+              <ProductName>{p.name}</ProductName>
+              <Price>{p.price}</Price>
+              <Rating>
+                {Array.from({ length: 5 }, (_, i) => (
+                  <Star
+                    key={i}
+                    size={16}
+                    fill={i < Math.floor(p.rating) ? "#facc15" : "none"}
+                    stroke="#facc15"
+                  />
+                ))}
+              </Rating>
+            </Info>
+          </Card>
+        ))}
+      </ProductsGrid>
+    </Section>
+    </Headerr>
   );
+};
+
+export default Home;
+
+
+const Headerr = styled.div`
+margin: 50px 40px 60px 40px; /* adjust for your fixed navbar */
+@media(max-width: 480px) {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  // height: 210px;
+  // border-radius: 8px;
 }
+`
+
+// 🎨 styled-components
+const BannerWrapper = styled.div`
+  // width: 100%;
+  overflow: hidden;
+  position: relative;
+  height: 400px;
+  border-radius: 12px;
+  // margin: 50px 40px 60px 40px; /* adjust for your fixed navbar */
+  @media(max-width: 480px) {
+    // margin-left: 10px;
+    // margin-right: 10px;
+    // margin-top: 10px;
+    height: 210px;
+    border-radius: 8px;
+  }
+`;
+
+const BannerTrack = styled.div<{ $current: number }>`
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+  transform: translateX(${(props) => -props.$current * 100}%);
+`;
+
+const BannerImage = styled.img`
+  width: 100%;
+  flex-shrink: 0;
+  height: 400px;
+  object-fit: cover;
+`;
+
+const Dots = styled.div`
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+`;
+
+const Dot = styled.div<{ $active?: boolean }>`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: ${(p) => (p.$active ? "#2563eb" : "#d1d5db")};
+  cursor: pointer;
+  transition: background 0.3s ease;
+`;
+
+
+const Section = styled.section`
+  background-color: #f8faff;
+  padding: 50px 20px;
+  margin-top: 50px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  color: #1e40af;
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+
+    @media(max-width: 480px) {
+      font-size: 1rem;
+    }
+  }
+`;
+
+const ViewAll = styled.a`
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const ProductsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+
+  /* 🟦 MOBILE VIEW */
+  @media (max-width: 768px) {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+`;
+
+
+const Card = styled.div`
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 768px) {
+    flex: 0 0 80%;
+    scroll-snap-align: center;
+  }
+`;
+
+const ImageWrapper = styled.div`
+  width: 100%;
+  height: 160px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f1f5f9;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const Info = styled.div`
+  margin-top: 10px;
+  text-align: center;
+`;
+
+const ProductName = styled.h3`
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+`;
+
+const Price = styled.div`
+  color: #2563eb;
+  font-weight: 700;
+  margin: 6px 0;
+`;
+
+const Rating = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+`;
